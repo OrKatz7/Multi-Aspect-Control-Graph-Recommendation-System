@@ -23,6 +23,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_file', type=str, help='config file path')
+    parser.add_argument('--weights', type=bool, help='config file path',default=True)
     args = parser.parse_args()
     old_stdout = sys.stdout
     name = args.config_file.split("/")[-1][:-4]
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     print('Configuration:')
     print(params)
 
-    mag = MultiAspectGraph(params, constraint_mat, ii_constraint_mat, ii_neighbor_mat,rec_i_64,rec_u_64)
+    mag = MultiAspectGraph(params, constraint_mat, ii_constraint_mat, ii_neighbor_mat,rec_i_64,rec_u_64,args.weights)
     # ultragcn.load_state_dict(torch.load("ultragcn_gowalla_0.pt"))
     mag = mag.to(params['device'])
     optimizer = torch.optim.Adam(mag.parameters(), lr=params['lr'])
@@ -47,5 +48,4 @@ if __name__ == "__main__":
 
     print('END')
     sys.stdout = old_stdout
-
     log_file.close()
