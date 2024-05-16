@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 
 class MultiAspectGraph(nn.Module):
-    def __init__(self, params, constraint_mat, ii_constraint_mat, ii_neighbor_mat,rec_i_64,rec_u_64):
+    def __init__(self, params, constraint_mat, ii_constraint_mat, ii_neighbor_mat,rec_i_64,rec_u_64,load_weights=False):
         super(MultiAspectGraph, self).__init__()
         self.user_num = params['user_num']
         self.item_num = params['item_num']
@@ -27,6 +27,7 @@ class MultiAspectGraph(nn.Module):
         self.w2 = params['w2']
         self.w3 = params['w3']
         self.w4 = params['w4']
+        self.load_weights = load_weights
         
         self.weight1 = nn.Parameter(torch.tensor(1.0, requires_grad=True))
         self.weight2 = nn.Parameter(torch.tensor(1.0, requires_grad=True))
@@ -56,17 +57,17 @@ class MultiAspectGraph(nn.Module):
     def initial_weights(self):
         nn.init.normal_(self.user_embeds.weight, std=self.initial_weight)
         nn.init.normal_(self.item_embeds.weight, std=self.initial_weight)
-        
-        print("start load weight")
-        print(self.user_embeds.weight.shape)
-        print(self.item_embeds.weight.shape)
-        
-        weight_user_embeds = self.rec_u_64
-        weight_item_embeds= self.rec_i_64
-        
-        self.user_embeds.weight = torch.nn.Parameter(torch.from_numpy(weight_user_embeds).cuda().float())
-        self.item_embeds.weight = torch.nn.Parameter(torch.from_numpy(weight_item_embeds).cuda().float())
-        print("end load weight")
+        if self.load_weights:
+            print("start load weight")
+            print(self.user_embeds.weight.shape)
+            print(self.item_embeds.weight.shape)
+
+            weight_user_embeds = self.rec_u_64
+            weight_item_embeds= self.rec_i_64
+
+            self.user_embeds.weight = torch.nn.Parameter(torch.from_numpy(weight_user_embeds).cuda().float())
+            self.item_embeds.weight = torch.nn.Parameter(torch.from_numpy(weight_item_embeds).cuda().float())
+            print("end load weight")
 
     def get_omegas(self, users, pos_items, neg_items):
         device = self.get_device()
