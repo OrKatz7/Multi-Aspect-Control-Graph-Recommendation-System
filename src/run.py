@@ -41,7 +41,7 @@ if __name__ == "__main__":
     mag = MultiAspectGraph(params, constraint_mat, ii_constraint_mat, ii_neighbor_mat,rec_i_64,rec_u_64)
     # ultragcn.load_state_dict(torch.load("ultragcn_gowalla_0.pt"))
     mag = mag.to(params['device'])
-    optimizer = torch.optim.Adam(ultragcn.parameters(), lr=params['lr'])
+    optimizer = torch.optim.Adam(mag.parameters(), lr=params['lr'])
 
     train(mag, optimizer, train_loader, test_loader, mask, test_ground_truth_list, interacted_items, params,train_mat)
 
