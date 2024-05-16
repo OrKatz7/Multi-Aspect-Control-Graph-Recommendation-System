@@ -48,7 +48,7 @@ cd MultiAspectControlGraphRecommendationSystem
 
 3. Train the BGU-GCN model:
 ```bash
-python src/run.py --config_file ./config/ultragcn_gowalla_m1.ini
+run_amazon.sh
 ```
 
 ## License
