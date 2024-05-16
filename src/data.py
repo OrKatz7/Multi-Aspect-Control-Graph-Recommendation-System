@@ -30,13 +30,12 @@ class gcnDataset(Dataset):
     def __getitem__(self, idx):
         pos = self.train_data[idx]
         neg_candidates = np.where(self.train_mat[pos[0]]==0)[0]
-        neg_items = np.random.choice(neg_candidates, (self.negative_num), replace = True)#,p=w)
+        neg_items = np.random.choice(neg_candidates, (self.negative_num), replace = True)
         neg_items = torch.from_numpy(neg_items)
         return torch.tensor(pos[0]),torch.tensor(pos[1]), neg_items
     
     def set_epoch(self,e):
         self.e = e
-        #self.negative_num = min(3000,self.e * self.params['negative_num'])
     
 
 
@@ -66,9 +65,7 @@ def data_param_prepare(config_file):
     train_file_path = config['Training']['train_file_path']
     gpu = config['Training']['gpu']
     params['gpu'] = gpu
-    print("torch.cuda.is_available()",torch.cuda.is_available())
     device = torch.device('cuda')
-    print(device)
     params['device'] = device
     lr = config.getfloat('Training', 'learning_rate')
     params['lr'] = lr
@@ -190,34 +187,7 @@ def sapling(M,projection):
         CO = np.dot(M.T,M)
         B = np.nan_to_num((1-(CO*(1-CO/k)+(k-CO.T).T*(1-(k-CO.T).T/(N-k))).T/(k*(1-k/N))).T*np.sign(((CO*N/k).T/k).T-1))
     return B
-
-
-# def get_ii_constraint_mat(train_mat, num_neighbors, ii_diagonal_zero = False,params=None):
-#     emb_dim = params['embedding_dim']
-#     M = train_mat.toarray().astype(np.float32)
-#     B = sapling(M,0)
-#     rec_u = np.nan_to_num(np.dot(B,M).T/np.sum(abs(B), axis = 1)).T 
-#     pca = PCA(n_components=emb_dim)
-#     rec_u_64 = pca.fit_transform(rec_u)
-#     # np.save(f"{config_file}_user_w_{emb_dim}.npy", rec_u_64)
-#     B = sapling(M,1)
-#     rec_i = np.nan_to_num(np.dot(M,B)/np.sum(abs(B), axis = 0))
-#     pca = PCA(n_components=emb_dim)
-#     rec_i_64 = pca.fit_transform(rec_i)
-#     # np.save(f"{config_file}_item_w_{emb_dim}.npy", rec_i_64)
-#     num_neighbors = params['ii_neighbor_num']
-#     n_items = train_mat.shape[1]
-#     res_mat = torch.zeros((n_items, num_neighbors))
-#     res_sim_mat = torch.zeros((n_items, num_neighbors))
-#     for i in range(n_items):
-#         row = torch.from_numpy(B[i])
-#         row_sims, row_idxs = torch.topk(row, num_neighbors)
-#         res_mat[i] = row_idxs
-#         res_sim_mat[i] = row_sims
-#     return res_mat.long(), res_sim_mat.float(),rec_i_64,rec_u_64
-    
-
-    
+  
 def load_data(train_file, test_file):
     trainUniqueUsers, trainItem, trainUser = [], [], []
     testUniqueUsers, testItem, testUser = [], [], []
