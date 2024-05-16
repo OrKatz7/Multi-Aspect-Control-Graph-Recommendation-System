@@ -38,8 +38,8 @@ existing state-of-the-art methods on two different public datasets.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/OrKatz7/BGUGCN.git
-cd BGUGCN
+git clone https://github.com/OrKatz7/Multi-Aspect-Control-Graph-Recommendation-System
+cd MultiAspectControlGraphRecommendationSystem
 ```
 
 2. Prepare the dataset:
