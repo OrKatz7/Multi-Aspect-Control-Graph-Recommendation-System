@@ -46,7 +46,7 @@ cd MultiAspectControlGraphRecommendationSystem
 - Download the Amazon-Book and Gowalla datasets
 - Preprocess the data and save it in the appropriate format, use preprocessing.py to initilaize the similiarty-based embedding matrix.
 
-3. Train the BGU-GCN model:
+3. Train:
 ```bash
 run_amazon.sh
 ```
