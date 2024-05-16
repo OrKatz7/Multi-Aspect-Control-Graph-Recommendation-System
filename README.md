@@ -1,6 +1,21 @@
 # Multi-Aspect-Control-Graph-Recommendation-System
 
-This repository contains the implementation of BGU-GCN, an enhanced Graph Convolutional Network (GCN) architecture for collaborative filtering in recommender systems. BGU-GCN introduces several key optimizations to improve recommendation accuracy and training efficiency compared to state-of-the-art methods.
+Graph neural networks (GNNs) have recently shown impressive re-
+sults in recommender systems, achieving remarkable results across
+various sectors. However, their deployment in such systems is not
+without challenges. One significant issue is the initialization of
+random weights, where incorrect starting points can hinder the
+learning process, causing slow convergence or getting stuck in
+local minima. To address this, we introduce a novel two-phase
+method tailored to the unique demands of recommender systems.
+Initially, we refine the latent weights by aligning them with be-
+havioral pattern similarities, inspired by the collaborative filtering
+technique. Subsequently, we implement a new strategy for manag-
+ing the number of negative samples and devising an innovative loss
+function. These strategic modifications substantially boost GNN
+performance, aligning them more closely with the needs of recom-
+mender systems. This is evidenced by our method outperforming
+existing state-of-the-art methods on two different public datasets.
 
 ## Features
 
