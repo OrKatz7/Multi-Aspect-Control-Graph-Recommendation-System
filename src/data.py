@@ -23,9 +23,6 @@ class gcnDataset(Dataset):
         self.train_mat = train_mat.toarray()
         self.e = 1
         self.negative_num = self.params['negative_num']
-        print(0)
-        self.bins = np.load("bins_amazon.npy")
-        print(1)
 
     def __len__(self):
         return len(self.train_data)
@@ -33,11 +30,6 @@ class gcnDataset(Dataset):
     def __getitem__(self, idx):
         pos = self.train_data[idx]
         neg_candidates = np.where(self.train_mat[pos[0]]==0)[0]
-        print(0)
-        w = self.bins[idx]
-        w = w[neg_candidates]
-        w/=w.sum()
-        print(1)
         neg_items = np.random.choice(neg_candidates, (self.negative_num), replace = True)#,p=w)
         neg_items = torch.from_numpy(neg_items)
         return torch.tensor(pos[0]),torch.tensor(pos[1]), neg_items
